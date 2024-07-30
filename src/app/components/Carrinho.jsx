@@ -6,7 +6,7 @@ export default function Carrinho() {
   const [dados, setDados] = useState();
   const classes = "" ? props.classes : "";
   const porcentagens = [];
-  const categorias = [];
+  const categorias = ['Assinaturas'];
   const valores = [];
 
   useEffect(() => {
@@ -21,9 +21,9 @@ export default function Carrinho() {
       .then((data) => setDados(data))
       .catch((error) => console.log(error));
   }, []);
-  // console.log(dados);
+  console.log(dados);
   if (dados) {
-    dados.forEach((item) => {
+    dados?.forEach((item) => {
       if (!categorias.includes(item.categoria)) {
         categorias.push(item.categoria);
       }
@@ -31,65 +31,40 @@ export default function Carrinho() {
   }
   categorias.forEach((item) => {
     let valor = 0;
-    const total = dados.length;
-    const quantidade = dados.filter((itens) => itens.categoria === item).length;
+    const total = dados?.length;
+    const quantidade = dados?.filter((itens) => itens.categoria === item).length;
     const porcentagem = (quantidade / total) * 100;
     porcentagens.push({ item, porcentagem });
-    dados.forEach((dado) => {
+    dados?.forEach((dado) => {
       if (dado.categoria === item) {
         valor += dado.valor;
       }
     });
-    valor = valor.toFixed(2);
+    valor = new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(valor);
     valores.push({
       value: valor,
-      label: `R$ ${valor} ${item}`,
+      label: `${item}`,
       porcentagem: porcentagem.toFixed(2),
     });
   });
-  const datas = [
-    { value: 20, label: "A" },
-    { value: 10, label: "B" },
-    { value: 15, label: "C" },
-    { value: 20, label: "D" },
-  ];
-  let data = valores ? valores : datas;
-  const size = {
-    width: 450,
-    height: 300,
-  };
+
 
   return (
-    <div className={`${classes} flex justify-around`}>
-      <PieChart
-        series={[
-          {
-            arcLabel: (item) => `${item.porcentagem}%`,
-            arcLabelMinAngle: 15,
-            data,
-            innerRadius: 30,
-            outerRadius: 110,
-            paddingAngle: 5,
-            cornerRadius: 5,
-            startAngle: -90,
-            endAngle: 180,
-            cx: 110,
-            cy: 150,
-          },
-        ]}
-        legend={{
-          direction: "column",
-          position: { vertical: "middle", horizontal: "right" },
-        }}
-        sx={{
-          [`& .${pieArcLabelClasses.root}`]: {
-            fill: "black",
-            color: "white",
-            fontWeight: "bold",
-          },
-        }}
-        {...size}
-      />
+    <div className={`${classes} grid grid-cols-5 gap-4 justify-items-stretch`}>
+      {
+        valores.map((item, index) => (
+          <div key={index} className="w-60 h-20 bg-zinc-800 rounded-lg grid ">
+            <h1 className="text-center">{item.label}</h1>
+            <div className="flex justify-around">
+              <h2 className="">{item.value}</h2>
+              <h2 className="">%{item.porcentagem}</h2>
+            </div>
+          </div>
+        ))
+      }
     </div>
-  );
+  )
 }

@@ -4,7 +4,6 @@ import Table from "@mui/joy/Table";
 const TableView = (props) => {
   const [dados, setDados] = useState();
   const classes = "" ? props.classes : "";
-  console.log(props.classes);
   const porcentagens = [];
   const categorias = [];
   const valores = [];
@@ -39,8 +38,26 @@ const TableView = (props) => {
 
 
   return (
-    <div className={`${props.classes}`}>
-      <table className="min-w-full">
+    <div className={`${props.classes} grid gap-3`}>
+      <div className="grid grid-flow-col h-10 bg-zinc-800 rounded-lg content-center justify-items-center">
+        <div className="grid content-center justify-items-center  w-64">Local</div>
+        <div className="grid content-center justify-items-center  w-28">Valor</div>
+        <div className="grid content-center justify-items-center  w-48">Data&nbsp;</div>
+        <div className="grid content-center justify-items-center  w-28">Hora&nbsp;</div>
+        <div className="grid content-center justify-items-center  w-36">Tipo&nbsp;</div>
+        <div className="grid content-center justify-items-center  w-36">Subtipo&nbsp;</div>
+      </div>
+      {rows.map((row, index) => (
+        <div className="grid grid-flow-col h-10 bg-zinc-800 rounded-lg content-center justify-items-center" key={index}>
+          <div className="grid content-center justify-items-center  w-64">{row.local}</div>
+          <div className="grid content-center justify-items-center  w-28">{row.valor}</div>
+          <div className="grid content-center justify-items-center  w-48">{row.data}</div>
+          <div className="grid content-center justify-items-center  w-28">{row.hora}</div>
+          <div className="grid content-center justify-items-center  w-36">{row.tipo}</div>
+          <div className="grid content-center justify-items-center  w-36">{row.subtipo}</div>
+        </div>
+      ))}
+      {/* <table className="min-w-full">
         <thead >
           <tr>
             <th className="text-center w-72 text-slate-100 bg-black border-collapse border-e-[1px] border-slate-600 rounded-tl-lg">Local</th>
@@ -64,7 +81,7 @@ const TableView = (props) => {
             </tr>
           ))}
         </tbody>
-      </table>
+      </table> */}
     </div>
   );
 };
