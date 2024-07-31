@@ -1,27 +1,40 @@
 "use client";
 import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
 import { useEffect, useState } from "react";
+import { fetchData } from "../api";
 
 export default function Carrinho() {
   const [dados, setDados] = useState();
   const classes = "" ? props.classes : "";
   const porcentagens = [];
-  const categorias = ['Assinaturas'];
+  const categorias = [];
   const valores = [];
 
+
+
   useEffect(() => {
-    fetch("http://localhost:5000/transacao", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      cors: "cors",
-    })
-      .then((response) => response.json())
-      .then((data) => setDados(data))
-      .catch((error) => console.log(error));
+    const fetch = async () => {
+      const assinaturas = await fetchData('/assinaturas');
+      const transacao = await fetchData('/transacao');
+      setDados([...assinaturas, ...transacao]);
+    }
+    fetch();
   }, []);
-  console.log(dados);
+
+  // useEffect(() => {
+
+  //   console.log(fetchData());
+  //   fetch("http://localhost:5000/transacao", {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     cors: "cors",
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => setDados(data))
+  //     .catch((error) => console.log(error));
+  // }, []);
   if (dados) {
     dados?.forEach((item) => {
       if (!categorias.includes(item.categoria)) {

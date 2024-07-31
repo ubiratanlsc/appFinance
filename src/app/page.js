@@ -12,7 +12,7 @@ export default function Home() {
     <main className="flex justify-center">
       <div className="mt-11 grid gap-5">
         <Carrinho classes={""} />
-        <TableView classes={""} />
+        {/* <TableView classes={""} /> */}
       </div>
     </main>
   );
