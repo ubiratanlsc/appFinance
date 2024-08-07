@@ -1,10 +1,10 @@
 "use client";
 import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
 import { useEffect, useState } from "react";
-import { fetchData } from "../api";
+import api from "../api";
 
 export default function Carrinho() {
-  const [dados, setDados] = useState();
+  const [dados, setDados] = useState([]);
   const classes = "" ? props.classes : "";
   const porcentagens = [];
   const categorias = [];
@@ -13,12 +13,23 @@ export default function Carrinho() {
 
 
   useEffect(() => {
-    const fetch = async () => {
-      const assinaturas = await fetchData('/assinaturas');
-      const transacao = await fetchData('/transacao');
-      setDados([...assinaturas, ...transacao]);
-    }
-    fetch();
+    // setDados([...assinaturas, ...transacao]);
+
+    let transacao = api.get('/usuarios')
+      .then((response) => response)
+      .then((result) => {
+        setDados([...result]);
+      })
+      .catch((error) => console.error(error));
+
+    // let assinatura = api.get('/assinaturas')
+    //   .then((response) => response)
+    //   .then((result) => {
+    //     setDados([...result]);
+    //   })
+    //   .catch((error) => console.error(error));
+
+
   }, []);
 
   // useEffect(() => {
@@ -34,7 +45,7 @@ export default function Carrinho() {
   //     .then((response) => response.json())
   //     .then((data) => setDados(data))
   //     .catch((error) => console.log(error));
-  // }, []);
+  // }, []);7
   if (dados) {
     dados?.forEach((item) => {
       if (!categorias.includes(item.categoria)) {
@@ -66,7 +77,7 @@ export default function Carrinho() {
 
 
   return (
-    <div className={`${classes} grid grid-cols-5 gap-4 justify-items-stretch`}>
+    <div className={`${classes} grid grid-flow-col gap-4 justify-items-center`}>
       {
         valores.map((item, index) => (
           <div key={index} className="w-60 h-20 bg-zinc-800 rounded-lg grid ">
