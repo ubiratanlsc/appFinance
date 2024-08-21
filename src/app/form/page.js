@@ -26,7 +26,7 @@ const TransactionForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         // Aqui você pode enviar os dados para um servidor ou processá-los conforme necessário
-        console.log(formData);
+        // console.log(formData);
     };
 
     return (

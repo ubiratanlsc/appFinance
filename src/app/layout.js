@@ -1,5 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
+import Footer from "./components/Footer";
+import NavBar from "./components/NavBar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -11,7 +13,17 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body suppressHydrationWarning={true} className={inter.className}>{children}</body>
+      <body suppressHydrationWarning={true} className={inter.className}>
+        <main className="grid grid-flow-col">
+          <NavBar className="col-span-1" />
+          <div className="col-span-11 w-[80%] grid content-between justify-items-center">
+            <div className="">
+              {children}
+            </div>
+            <Footer className="w-10/12 mb-10" />
+          </div>
+        </main>
+      </body>
     </html>
   );
 }
